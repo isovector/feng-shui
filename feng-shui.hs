@@ -46,4 +46,3 @@ main = do
     let matlab = matlabFriendly $ toCSV contents
     writeFile ("processed_" ++ file) matlab
 
-{-main = print $ matlabFriendly $ toCSV "a,b,c\n?,1,2\n?,1,0\n1,?,?"-}
