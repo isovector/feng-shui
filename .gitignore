@@ -1,3 +1,5 @@
 /feng-shui
 *.hi
 *.o
+.cabal-sandbox
+dist/

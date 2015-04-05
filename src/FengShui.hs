@@ -1,7 +1,9 @@
-import Control.Applicative ((<$>))
+module FengShui (CSV(CSV), toCSV, fromCSV) where
+
 import Data.List (intercalate)
+import Data.Matrix
 import Data.Maybe (catMaybes)
-import System.Environment (getArgs)
+
 
 data CSV a = CSV [String] [[a]] deriving Show
 
@@ -37,12 +39,7 @@ normalizeCSV (CSV labels rows) = CSV labels rows'
 toCSV :: String -> CSV Float
 toCSV = normalizeCSV . parseCSV
 
-matlabFriendly :: Show a => CSV a -> String
-matlabFriendly (CSV _ rows) = unlines $ map (intercalate "," . map show) rows
-
-main = do
-    file <- head <$> getArgs
-    contents <- readFile file
-    let matlab = matlabFriendly $ toCSV contents
-    writeFile ("processed_" ++ file) matlab
+fromCSV :: CSV a -> Matrix a
+fromCSV (CSV labels rows) = matrix (length rows) (length labels) go
+  where go (y, x) = (rows !! (y - 1)) !! (x - 1)
 
